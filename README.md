@@ -1,12 +1,13 @@
 ###########################
-######### A.N.T.S #########
+### A.N.T.S ###
 ###########################
 
 #### Ants Natural Task Simulator ####
 
-L'objectif du projet est de modéliser la routine de développement et de fonctionnement d'une colonie de fourmis, en prenant en compte :
+This project's main goal is to simulate a development and working routine of an ants colony, implementing :
 
--Les comportements de base : reconnaissance, recherche de nourriture, construction de la fourmilière, cycles de reproduction et mort
-- Les différents « rôles » présents dans la colonie : ouvrière, soldat, reine, etc.
-- Les interactions entres les individus : échange de nourriture, « handshake » , etc.
-- L'émission de phéromones
+- Basic natural cycles : birth, feeding, death.
+- Usual ants behaviours like colony building, scouting, etc.
+- Different classes : worker, soldier, queen,...
+- Inter-individuals interaction : food sharing, "handshaking" (species recognition), ...
+- Pheromonal communication and trails marking.
