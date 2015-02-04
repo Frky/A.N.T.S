@@ -91,6 +91,7 @@ public class Ant
 	}
 
 	public void move() {
+		///Move an ant toward its destination
 		if(!this.idling){
 			double norm = Math.sqrt((this.destination[0]-this.x)*(this.destination[0]-this.x) + (this.destination[1]-this.y)*(this.destination[1]-this.y) );
 			double vx = (this.destination[0]-this.x)/norm;
@@ -103,6 +104,7 @@ public class Ant
 	}
 
 	public void giveOrder(int xmax, int ymax){
+		///For now, give an ant a new destination if idling
 		if(this.idling){
 			Random alea = new Random();
 			this.destination[0] = alea.nextInt(xmax);

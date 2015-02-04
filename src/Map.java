@@ -6,33 +6,33 @@ import javax.swing.JPanel;
 
 class Map extends JPanel {
 	
-  private Vector<Ant> collection;
+  private Vector<Ant> colony;
 
   public Map(){
-    this.collection = new Vector<Ant>();
+    this.colony = new Vector<Ant>();
   }
 
   @Override
 	public void paintComponent(Graphics g) {
     super.paintComponents(g);
-    for(Ant ant : this.collection)
+    for(Ant ant : this.colony)
       g.fillRect(ant.getX(), ant.getY(), 4, 4);
 	}
 
-    public void setCollection(Vector<Ant> collection){
-      this.collection = new Vector<Ant>();
-      for(Ant ant : collection)
-        this.collection.add(ant);
+    public void setColony(Vector<Ant> colony){
+      this.colony = new Vector<Ant>();
+      for(Ant ant : colony)
+        this.colony.add(ant);
     }
 
     public void erase(){
-        this.collection = new Vector<Ant>();
+        this.colony = new Vector<Ant>();
         repaint();
     }
 
-    public void refresh(Vector<Ant> collection){
+    public void refresh(Vector<Ant> colony){
       this.erase();
-      this.setCollection(collection);
+      this.setColony(colony);
       this.repaint();
     }
 }

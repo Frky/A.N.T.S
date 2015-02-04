@@ -11,7 +11,7 @@ public class Simulation
 	private int nbTours;
 	private int xMax;
 	private int yMax;
-	private Vector<Ant> collection;
+	private Vector<Ant> colony;
 
 	public Simulation(int nbAnt, int nbTours, int xMax, int yMax){
 		
@@ -21,17 +21,17 @@ public class Simulation
 		this.nbTours = nbTours;
 		this.xMax = xMax;
 		this.yMax = yMax;
-		this.collection = new Vector<Ant>(this.nbAnt);
+		this.colony = new Vector<Ant>(this.nbAnt);
 		
 		for(int i = 0; i<nbAnt; i++){
 			new_ant = new Ant( alea.nextInt(this.xMax), alea.nextInt(this.yMax));
 			new_ant.setDestination(alea.nextInt(this.xMax), alea.nextInt(this.yMax));
-			if( ! (collection.add(new_ant) ))
+			if( ! (colony.add(new_ant) ))
 				System.out.println("Error creating new ant");
 		}	
 	}
 	
-///////Accesseurs
+///////Accessors
 
 	public int getNbAnt() {
 		return this.nbAnt;
@@ -56,8 +56,7 @@ public class Simulation
 /////////Methods
 
 	public void simule(){
-		
-		for (Ant ant : this.collection){
+		for (Ant ant : this.colony){
 			//ant.print();
 			ant.getOld();
 			ant.move();
@@ -67,7 +66,7 @@ public class Simulation
 
 ////////////////////////
 ////// MAIN ///////////
-	/////////////////
+///////////////////////
 
 	public static void main(String args[]){	
 		
@@ -81,13 +80,13 @@ public class Simulation
 		Map map = new Map();
 
 
-		map.setCollection(current_simu.collection);
-      	frame.setContentPane(map);
-    	frame.setVisible(true);
+		map.setCollection(current_simu.colony);
+		frame.setContentPane(map);
+		frame.setVisible(true);
 
 		for(int i = 0; i< nb_tours_max; i++){
 			current_simu.simule();
-			map.refresh(current_simu.collection);
+			map.refresh(current_simu.colony);
 			frame.getContentPane().removeAll();
 			frame.setContentPane(map);
 			frame.revalidate();
