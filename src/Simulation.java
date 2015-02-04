@@ -1,10 +1,11 @@
+import java.lang.*;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 
 public class Simulation
 {
-	///////Constructeur et attributs
+	///////Constructor & attributes
 
 	private int nbAnt;
 	private int nbTours;
@@ -24,16 +25,12 @@ public class Simulation
 		
 		for(int i = 0; i<nbAnt; i++){
 			new_ant = new Ant( alea.nextInt(this.xMax), alea.nextInt(this.yMax));
+			new_ant.setDestination(alea.nextInt(this.xMax), alea.nextInt(this.yMax));
 			if( ! (collection.add(new_ant) ))
 				System.out.println("Error creating new ant");
 		}	
 	}
 	
-	public void refresh(JFrame frame, Map map){
-		map.setCollection(this.collection);
-		map.repaint();
-	}	
-
 ///////Accesseurs
 
 	public int getNbAnt() {
@@ -58,14 +55,14 @@ public class Simulation
 
 /////////Methods
 
-	public void simule(JFrame frame, Map map){
+	public void simule(){
 		
-		for (int i = 0; i<this.nbAnt; i++){
-			this.collection.get(i).print();
-			this.collection.get(i).getOld();
+		for (Ant ant : this.collection){
+			//ant.print();
+			ant.getOld();
+			ant.move();
+			ant.giveOrder(this.xMax, this.yMax);
 		}
-
-		this.refresh(frame, map);
 	}
 
 ////////////////////////
@@ -77,26 +74,25 @@ public class Simulation
 		int maxTurn = Integer.parseInt(args[1]);
 		int antNb = Integer.parseInt(args[0]);
 
-		Simulation current_simu = new Simulation(antNb, 10, 800, 600);
+		Simulation current_simu = new Simulation(antNb, maxTurn, 800, 600);
 		int nb_tours_max = current_simu.getNbTours();
 		
-		JFrame frame = new JFrame();
+		Interface frame = new Interface(current_simu.getXMax(), current_simu.getYMax());
 		Map map = new Map();
 
-		map.setCollection(current_simu.collection);
 
-		frame.setTitle("Simulation");
-		frame.setSize(current_simu.getXMax(), current_simu.getYMax());
-		frame.setLocationRelativeTo(null);
-    
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		map.setCollection(current_simu.collection);
       	frame.setContentPane(map);
     	frame.setVisible(true);
 
 		for(int i = 0; i< nb_tours_max; i++){
-			current_simu.simule(frame, map);
+			current_simu.simule();
+			map.refresh(current_simu.collection);
+			frame.getContentPane().removeAll();
+			frame.setContentPane(map);
+			frame.revalidate();
 			try {
-    			Thread.sleep(1000);
+    			Thread.sleep(41);
 			} 
 			catch(InterruptedException ex) {
     			Thread.currentThread().interrupt();
