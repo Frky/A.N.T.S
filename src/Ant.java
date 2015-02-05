@@ -17,19 +17,22 @@ public class Ant
 	protected int y;
 	protected int foodStock;
 	protected int age;
+	protected int[] colonyCoord;
 	protected int[] destination;
+	protected int[] detectedFood;
 	protected boolean idling;
 
 	public Ant(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
-		this.foodStock= 100;
+		this.foodStock= 20;
 		this.age = 0;
 		this.destination = new int[2];
-		this.destination[0] = 0;
-		this.destination[1] = 0;
-		this.idling = false;
+		this.detectedFood = new int[2];
+		this.detectedFood[0] = -1;
+		this.colonyCoord = new int[2];
+		this.idling = true;
 	}
 
 ////////Accessors
@@ -52,6 +55,10 @@ public class Ant
 
 	public int[] getDestination(){
 		return this.destination;
+	}
+
+	public int[] getColonyCoord(){
+		return this.colonyCoord;
 	}
 
 	public boolean getIdling(){
@@ -80,6 +87,11 @@ public class Ant
 		this.destination[1]=y;
 	}
 
+	public void setColonyCoord(int x, int y){
+		this.colonyCoord[0]=x;
+		this.colonyCoord[1]=y;
+	}
+
 	public void setIdling(boolean bool){
 		this.idling = bool;
 	}
@@ -102,12 +114,12 @@ public class Ant
 		}
 	}
 
-	public void giveOrder(int xmax, int ymax){
+	public void scout(int xmax, int ymax){
 		///For now, give an ant a new destination if idling
 		if(this.idling){
 			Random alea = new Random();
-			this.destination[0] = alea.nextInt(xmax);
-			this.destination[1] = alea.nextInt(ymax);
+			this.destination[0] = Math.min(Math.abs(this.getX()+alea.nextInt(200)-100),xmax);
+			this.destination[1] = Math.min(Math.abs(this.getY()+alea.nextInt(200)-100),ymax);
 			this.idling=false;
 		}
 	}
@@ -118,18 +130,37 @@ public class Ant
 		int hung = 100 - this.foodStock;
 		this.foodStock = food.getQuantity()%100;
 		food.setQuantity(food.getQuantity()-hung);
+		if(food.getQuantity()<=0){
+			this.detectedFood[0] = -1;
+		}
 	}
 
 	public void dropFood(Vector<FoodSource> foodSources){
-		int drop = this.foodStock - 20;
-		foodSources.add(new FoodSource(this.x, this.y));
-		if(this.foodStock > 20)
-			this.foodStock = 20;
-		this.idling = true;  
+		if(this.detectedFood[0]!=-1){
+			if((Math.abs(colonyCoord[0]-this.getX())<50)&&(Math.abs(colonyCoord[1]-this.getY())<50)){
+				if(this.foodStock > 20){
+					//int drop = this.foodStock - 20;
+					foodSources.add(new FoodSource(100, this.x, this.y, false));
+					this.foodStock = 0;
+				}
+				this.destination[0]=this.detectedFood[0];
+				this.destination[1]=this.detectedFood[1];
+			}
+		}
 	}
 
 	public void detectFood(Vector<FoodSource> foodSources){
-
+		Random alea = new Random();
+		for(FoodSource food : foodSources){
+			if( ( (Math.abs(food.getX()-this.getX())<25)&&(Math.abs(food.getY()-this.getY())<25) )&&(food.isForageable())){
+				this.takeFood(food);
+				this.detectedFood[0]=food.getX();
+				this.detectedFood[1]=food.getY();
+				this.destination[0]=this.colonyCoord[0]+alea.nextInt(100)-50;
+				this.destination[1]=this.colonyCoord[1]+alea.nextInt(100)-50;
+				this.idling=false;
+			}
+		}
 	}
 
 

@@ -5,12 +5,14 @@ public class FoodSource{
 	private int quantity;
 	private int x;
 	private int y;
+	private boolean forageable;
 
-	public FoodSource(int x,int y)
+	public FoodSource(int q, int x, int y, boolean forageable)
 	{
-		this.quantity = 100;
+		this.quantity = q;
 		this.x = x;
 		this.y = y;
+		this.forageable=forageable;
 	}
 
 ///Accessors
@@ -29,5 +31,9 @@ public class FoodSource{
 
 	public void setQuantity(int q){
 		this.quantity = q;
+	}
+
+	public boolean isForageable(){
+		return this.forageable;
 	}
 }

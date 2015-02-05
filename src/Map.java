@@ -24,7 +24,7 @@ class Map extends JPanel {
       g.fillRect(ant.getX(), ant.getY(), 4, 4); 
     g.setColor(darkGreen);
     for(FoodSource food : this.simulation.getFoodSources())
-      g.fillRect(food.getX(), food.getY(), 6, 6);
+      g.fillOval(food.getX()-12, food.getY()-12, food.getQuantity()/100, food.getQuantity()/100);
 	}
 
     public void setSimulation(Simulation simulation){
