@@ -11,3 +11,13 @@ This project's main goal is to simulate a development and working routine of an 
 - Different classes : worker, soldier, queen,...
 - Inter-individuals interaction : food sharing, "handshaking" (species recognition), ...
 - Pheromonal communication and trails marking.
+
+#### Compile with :
+
+	javac Simulation.java
+
+### Run with :
+
+	java Simulation (int)nbAnts (int)duration
+
+	(duration is in turns, one turn lasts aproximately 0,05s)
