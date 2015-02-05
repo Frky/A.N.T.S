@@ -8,16 +8,23 @@ class Map extends JPanel {
 	
   private Simulation simulation;
 
-  public Map(int nbAnt, int nbTours, int xMax, int yMax){
-    this.simulation = new Simulation(nbAnt, nbTours, xMax, yMax);
+  public Map(int nbAnt, int nbTours, int nbSources, int xMax, int yMax){
+    this.simulation = new Simulation(nbAnt, nbTours, nbSources, xMax, yMax);
   }
 
   @Override
 	public void paintComponent(Graphics g) {
+    
+    Color darkGreen = new Color(0,128,0);
+
     super.paintComponents(g);
-    g.drawOval(500,500,100,100);
+    g.setColor(Color.darkGray);
+    g.drawOval(this.simulation.getXMax()/2-75,this.simulation.getYMax()/2-75,150,150);
     for(Ant ant : this.simulation.getColony())
-      g.fillRect(ant.getX(), ant.getY(), 4, 4);
+      g.fillRect(ant.getX(), ant.getY(), 4, 4); 
+    g.setColor(darkGreen);
+    for(FoodSource food : this.simulation.getFoodSources())
+      g.fillRect(food.getX(), food.getY(), 6, 6);
 	}
 
     public void setSimulation(Simulation simulation){

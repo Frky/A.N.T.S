@@ -15,7 +15,7 @@ public class Ant
 
 	protected int x;
 	protected int y;
-	protected int hunger;
+	protected int foodStock;
 	protected int age;
 	protected int[] destination;
 	protected boolean idling;
@@ -24,7 +24,7 @@ public class Ant
 	{
 		this.x = x;
 		this.y = y;
-		this.hunger= 100;
+		this.foodStock= 100;
 		this.age = 0;
 		this.destination = new int[2];
 		this.destination[0] = 0;
@@ -43,7 +43,7 @@ public class Ant
 	}
 
 	public int getHunger(){
-		return this.hunger;
+		return this.foodStock;
 	}
 
 	public int getAge(){
@@ -67,8 +67,8 @@ public class Ant
 		this.y = new_y;
 	}
 
-	public void setHunger(int hunger){
-		this.hunger = hunger;
+	public void setHunger(int foodStock){
+		this.foodStock = foodStock;
 	}
 
 	public void setAge(int age){
@@ -85,8 +85,7 @@ public class Ant
 	}
 
 /////Methods 
-
-	public void getOld() {
+	public void ageing() {
 		this.age++;
 	}
 
@@ -113,6 +112,28 @@ public class Ant
 		}
 	}
 
+	///Food related :
+
+	public void takeFood(FoodSource food){
+		int hung = 100 - this.foodStock;
+		this.foodStock = food.getQuantity()%100;
+		food.setQuantity(food.getQuantity()-hung);
+	}
+
+	public void dropFood(Vector<FoodSource> foodSources){
+		int drop = this.foodStock - 20;
+		foodSources.add(new FoodSource(this.x, this.y));
+		if(this.foodStock > 20)
+			this.foodStock = 20;
+		this.idling = true;  
+	}
+
+	public void detectFood(Vector<FoodSource> foodSources){
+
+	}
+
+
+///Misc
 	public void print() {
 		System.out.println("Ant : (x = " + this.x + ", y = " + this.y + "), Age : " + this.age + ", Dest : (" + this.destination[0] + ", " + this.destination[1] + ")");
 	}

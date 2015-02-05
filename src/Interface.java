@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 
 public class Interface extends JFrame{
-
+	
 	public Interface(int x, int y){
 
 		this.setTitle("Simulation");
@@ -13,5 +13,4 @@ public class Interface extends JFrame{
 		this.setLocationRelativeTo(null);
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
 }
