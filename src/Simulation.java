@@ -94,15 +94,21 @@ public class Simulation
 			ant.move();
 		}
 
+		/* To change if we want to be able to remove 
+		 * more than one food source per loop */
+		FoodSource to_remove = null;
 		for (FoodSource food : this.foodSources){
 			if(food.getQuantity()<=0)
 				//try {
-				foodSources.remove(food);
+				// foodSources.remove(food);
+				to_remove = food;
 			//} catch(ConcurentModificationException e){
 				//System.out.println(e);
 			//}
 
 		}
+		if (to_remove != null)
+			foodSources.remove(to_remove);
 	}
 
 ////////////////////////
