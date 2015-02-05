@@ -6,33 +6,29 @@ import javax.swing.JPanel;
 
 class Map extends JPanel {
 	
-  private Vector<Ant> colony;
+  private Simulation simulation;
 
-  public Map(){
-    this.colony = new Vector<Ant>();
+  public Map(int nbAnt, int nbTours, int xMax, int yMax){
+    this.simulation = new Simulation(nbAnt, nbTours, xMax, yMax);
   }
 
   @Override
 	public void paintComponent(Graphics g) {
     super.paintComponents(g);
-    for(Ant ant : this.colony)
+    g.drawOval(500,500,100,100);
+    for(Ant ant : this.simulation.getColony())
       g.fillRect(ant.getX(), ant.getY(), 4, 4);
 	}
 
-    public void setColony(Vector<Ant> colony){
-      this.colony = new Vector<Ant>();
-      for(Ant ant : colony)
-        this.colony.add(ant);
+    public void setSimulation(Simulation simulation){
+      this.simulation = simulation;
     }
 
-    public void erase(){
-        this.colony = new Vector<Ant>();
-        repaint();
+    public Simulation getSimulation(){
+      return this.simulation;
     }
 
-    public void refresh(Vector<Ant> colony){
-      this.erase();
-      this.setColony(colony);
+    public void refresh(){
       this.repaint();
     }
 }

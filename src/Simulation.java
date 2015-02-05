@@ -49,6 +49,10 @@ public class Simulation
 		return this.yMax;
 	}
 
+	public Vector<Ant> getColony(){
+		return this.colony;
+	}
+
 	public void setNbTours(int new_nb){
 		this.nbTours = new_nb;
 	}
@@ -73,20 +77,17 @@ public class Simulation
 		int maxTurn = Integer.parseInt(args[1]);
 		int antNb = Integer.parseInt(args[0]);
 
-		Simulation current_simu = new Simulation(antNb, maxTurn, 800, 600);
-		int nb_tours_max = current_simu.getNbTours();
-		
-		Interface frame = new Interface(current_simu.getXMax(), current_simu.getYMax());
-		Map map = new Map();
+		Map map = new Map(antNb, maxTurn, 1000, 1000);
+		Interface frame = new Interface(map.getSimulation().getXMax(), map.getSimulation().getYMax());
 
+		int end = map.getSimulation().getNbTours();
 
-		map.setCollection(current_simu.colony);
 		frame.setContentPane(map);
 		frame.setVisible(true);
 
-		for(int i = 0; i< nb_tours_max; i++){
-			current_simu.simule();
-			map.refresh(current_simu.colony);
+		for(int i = 0; i<end ; i++){
+			map.getSimulation().simule();
+			//map.refresh();
 			frame.getContentPane().removeAll();
 			frame.setContentPane(map);
 			frame.revalidate();
